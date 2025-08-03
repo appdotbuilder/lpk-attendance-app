@@ -8,7 +8,7 @@ use App\Models\TrainingClass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
+
 
 class AttendanceController extends Controller
 {
@@ -37,7 +37,7 @@ class AttendanceController extends Controller
 
         $attendance = $query->latest('date')->paginate(20);
 
-        return Inertia::render('attendance/index', [
+        return view('attendance.index', [
             'attendance' => $attendance,
             'filters' => $request->only(['date', 'status']),
         ]);
@@ -67,7 +67,7 @@ class AttendanceController extends Controller
             ->whereDate('date', today())
             ->first();
 
-        return Inertia::render('attendance/create', [
+        return view('attendance.create', [
             'currentClass' => $currentClass,
             'todayAttendance' => $todayAttendance,
         ]);
@@ -183,7 +183,7 @@ class AttendanceController extends Controller
 
         $attendance->load(['user', 'trainingClass']);
 
-        return Inertia::render('attendance/show', [
+        return view('attendance.show')->with([
             'attendance' => $attendance,
         ]);
     }

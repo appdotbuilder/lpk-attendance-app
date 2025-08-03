@@ -3,8 +3,8 @@
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PicketReportController;
+use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/health-check', function () {
     return response()->json([
@@ -14,7 +14,7 @@ Route::get('/health-check', function () {
 })->name('health-check');
 
 Route::get('/', function () {
-    return Inertia::render('welcome');
+    return view('welcome');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -26,6 +26,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     // Picket report routes
     Route::resource('picket-reports', PicketReportController::class);
+    
+    // Chat routes
+    Route::resource('chat', ChatController::class)->only(['index', 'store', 'show']);
 });
 
 require __DIR__.'/settings.php';

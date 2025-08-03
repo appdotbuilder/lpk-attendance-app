@@ -8,7 +8,7 @@ use App\Models\TrainingSchedule;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
+
 
 class DashboardController extends Controller
 {
@@ -55,7 +55,7 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        return Inertia::render('dashboard/admin', [
+        return view('dashboard.admin', [
             'stats' => $stats,
             'recentAttendance' => $recentAttendance,
             'pendingReports' => $pendingReports,
@@ -84,7 +84,7 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        return Inertia::render('dashboard/instructor', [
+        return view('dashboard.instructor', [
             'classes' => $classes,
             'todaySchedules' => $todaySchedules,
             'recentReports' => $recentReports,
@@ -100,7 +100,7 @@ class DashboardController extends Controller
         $currentClass = $user->getCurrentClass();
 
         if (!$currentClass) {
-            return Inertia::render('dashboard/cpmi-no-class');
+            return view('dashboard.cpmi-no-class');
         }
 
         // Today's schedule
@@ -138,7 +138,7 @@ class DashboardController extends Controller
                 ->count(),
         ];
 
-        return Inertia::render('dashboard/cpmi', [
+        return view('dashboard.cpmi', [
             'currentClass' => $currentClass,
             'todaySchedules' => $todaySchedules,
             'recentAttendance' => $recentAttendance,

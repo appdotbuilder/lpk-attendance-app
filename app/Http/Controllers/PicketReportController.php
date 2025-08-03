@@ -6,7 +6,7 @@ use App\Http\Requests\StorePicketReportRequest;
 use App\Models\PicketReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
+
 
 class PicketReportController extends Controller
 {
@@ -35,7 +35,7 @@ class PicketReportController extends Controller
 
         $reports = $query->latest('date')->paginate(20);
 
-        return Inertia::render('picket-reports/index', [
+        return view('picket-reports.index', [
             'reports' => $reports,
             'filters' => $request->only(['status', 'date']),
         ]);
@@ -65,7 +65,7 @@ class PicketReportController extends Controller
             ->whereDate('date', today())
             ->first();
 
-        return Inertia::render('picket-reports/create', [
+        return view('picket-reports.create', [
             'currentClass' => $currentClass,
             'todayReport' => $todayReport,
         ]);
@@ -134,7 +134,7 @@ class PicketReportController extends Controller
 
         $picketReport->load(['user', 'trainingClass', 'reviewer']);
 
-        return Inertia::render('picket-reports/show', [
+        return view('picket-reports.show')->with([
             'report' => $picketReport,
         ]);
     }
@@ -152,7 +152,7 @@ class PicketReportController extends Controller
 
         $picketReport->load(['trainingClass']);
 
-        return Inertia::render('picket-reports/edit', [
+        return view('picket-reports.edit')->with([
             'report' => $picketReport,
         ]);
     }
